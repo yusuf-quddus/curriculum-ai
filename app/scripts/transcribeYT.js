@@ -7,7 +7,6 @@ import dotenv from 'dotenv';
 import { glob } from 'glob';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import OpenAI from "openai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,11 +15,12 @@ dotenv.config({ path: resolve(__dirname, '../../.env') });
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
 console.log("Loaded OPENAI_KEY:", process.env.OPENAI_API_KEY);
 
-const ytUrl = process.argv[2];
+// get youtube url and strip query params
+const ytUrl = process.argv[2].split('?')[0].replace(/\\/g, '');
 
 if (!ytUrl) {
-    console.error("No url given");
-    process.exit(1)
+  console.error("No url given");
+  process.exit(1)
 }
 
 try {
@@ -58,6 +58,6 @@ const transcribeAudio = async () => {
     } finally {
       fs.unlinkSync(audioFile);
     }
-  };
+};
 
 transcribeAudio();
