@@ -1,6 +1,6 @@
 import Tesseract from 'tesseract.js';
 
-const imagePath = '';
+const imagePath = process.argv[2];
 
 const runOCR = async () => {
     try {

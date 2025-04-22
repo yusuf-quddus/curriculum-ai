@@ -3,7 +3,7 @@ import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse'); 
-const fileName = '#';
+const fileName = process.argv[2];
 
 const parsePDF = async () => {
     try {
