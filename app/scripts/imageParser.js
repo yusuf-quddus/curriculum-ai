@@ -2,7 +2,7 @@ import Tesseract from 'tesseract.js';
 
 const imagePath = process.argv[2];
 
-const runOCR = async () => {
+const runOCR = async (imagePath) => {
     try {
         console.log(`Reading ${imagePath} ...`);
         const result = await Tesseract.recognize(imagePath, 'eng');
