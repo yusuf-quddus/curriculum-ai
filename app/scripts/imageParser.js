@@ -2,10 +2,10 @@ import Tesseract from 'tesseract.js';
 
 const imagePath = process.argv[2];
 
-const runOCR = async (imagePath) => {
+const runOCR = async (image) => {
     try {
-        console.log(`Reading ${imagePath} ...`);
-        const result = await Tesseract.recognize(imagePath, 'eng');
+        console.log(`Reading ${image} ...`);
+        const result = await Tesseract.recognize(image, 'eng');
         console.log('\n Extracted Text: \n');
         console.log(result.data.text);
     } catch (err) {
@@ -13,4 +13,4 @@ const runOCR = async (imagePath) => {
     }
 }
 
-runOCR();
+runOCR(image);

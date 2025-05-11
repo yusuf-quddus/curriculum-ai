@@ -19,9 +19,9 @@ if (!audioInput) {
   process.exit(1);
 }
 
-const audioFile = path.resolve(audioInput);
+const audioPath = path.resolve(audioInput);
 
-const transcribeAudio = async () => {
+const transcribeAudio = async (audioFile) => {
   const form = new FormData();
   form.append('file', fs.createReadStream(audioFile));
   form.append('model', 'whisper-1');
@@ -45,4 +45,4 @@ const transcribeAudio = async () => {
   }
 };
 
-transcribeAudio();
+transcribeAudio(audioPath);

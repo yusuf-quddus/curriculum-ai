@@ -3,9 +3,9 @@ import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse'); 
-const fileName = process.argv[2];
+const file = process.argv[2];
 
-const parsePDF = async () => {
+const parsePDF = async (fileName) => {
     try {
         console.log(`Parsing ${fileName} ...`);
         const dataBuffer = fs.readFileSync(fileName);
@@ -16,4 +16,4 @@ const parsePDF = async () => {
     }
 };
 
-parsePDF();
+parsePDF(file);

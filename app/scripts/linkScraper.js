@@ -3,6 +3,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const cheerio = require('cheerio');
 
+const siteURL = process.argv[2];
+
 const extractFromURL = async (url) => {
     const res = await fetch(url, {
         headers: {
@@ -19,4 +21,4 @@ const extractFromURL = async (url) => {
     console.log('Extracted text:\n', content.trim().slice(0, 5000));
 }
 
-extractFromURL('https://docs.google.com/document/d/1Z6Ir4UyEN0UNyuqVUUBnpc99_Rilm_hilssTju-7Mq8/edit?usp=sharing');
+extractFromURL(siteURL);
