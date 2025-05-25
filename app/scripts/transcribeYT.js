@@ -16,48 +16,51 @@ const OPENAI_KEY = process.env.OPENAI_API_KEY;
 console.log("Loaded OPENAI_KEY:", process.env.OPENAI_API_KEY);
 
 // get youtube url and strip query params
-const ytUrl = process.argv[2].split('?')[0].replace(/\\/g, '');
 
-if (!ytUrl) {
-  console.error("No url given");
-  process.exit(1)
-}
+const transcribeAudio = async (ytUrl) => {
 
-try {
-    console.log(`Downloading audio from ${ytUrl}`);
-    execSync(`yt-dlp -f bestaudio -o 'temp-audio.%(ext)s' ${ytUrl}`, { stdio: 'inherit' });
-} catch (err) {
-    console.error('Audio download failed:', err.message);
-    process.exit(1);
-}
+  const ytUrl = process.argv[2].split('?')[0].replace(/\\/g, '');
 
-const files = glob.sync('temp-audio.*');
-const audioFile = files[0];
+  if (!ytUrl) {
+    console.error("No url given");
+    process.exit(1)
+  }
 
-const transcribeAudio = async () => {
-    const form = new FormData();
-    form.append('file', fs.createReadStream(path.resolve(audioFile)));
-    form.append('model', 'whisper-1');
+  try {
+      console.log(`Downloading audio from ${ytUrl}`);
+      execSync(`yt-dlp -f bestaudio -o 'temp-audio.%(ext)s' ${ytUrl}`, { stdio: 'inherit' });
+  } catch (err) {
+      console.error('Audio download failed:', err.message);
+      process.exit(1);
+  }
+  
+  const files = glob.sync('temp-audio.*');
+  const audioFile = files[0];
 
-    try {
-      console.log('Transcribing with Whisper API...');
-      const response = await axios.post(
-        'https://api.openai.com/v1/audio/transcriptions', form,
-        {
-          headers: {
-            ...form.getHeaders(),
-            Authorization: `Bearer ${OPENAI_KEY}`,
-          },
-        }
-      );
+  const form = new FormData();
+  form.append('file', fs.createReadStream(path.resolve(audioFile)));
+  form.append('model', 'whisper-1');
 
-      console.log('\n Transcription:\n');
-      console.log(response.data.text);
-    } catch (err) {
-      console.error('Transcription failed:', err.response?.data || err.message);
-    } finally {
-      fs.unlinkSync(audioFile);
+  try {
+    console.log('Transcribing with Whisper API...');
+    const response = await axios.post(
+    'https://api.openai.com/v1/audio/transcriptions', form,
+    {
+      headers: {
+        ...form.getHeaders(),
+        Authorization: `Bearer ${OPENAI_KEY}`,
+      },
     }
+  );
+
+  console.log('\n Transcription:\n');
+  console.log(response.data.text);
+    return response.data.text;
+  } catch (err) {
+    console.error('Transcription failed:', err.response?.data || err.message);
+  } finally {
+    fs.unlinkSync(audioFile);
+  }
 };
 
-transcribeAudio();
+export default transcribeAudio;

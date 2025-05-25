@@ -8,9 +8,10 @@ const runOCR = async (image) => {
         const result = await Tesseract.recognize(image, 'eng');
         console.log('\n Extracted Text: \n');
         console.log(result.data.text);
+        return result.data.text;
     } catch (err) {
         console.error("Failed to process image: ", err);
     }
 }
 
-runOCR(image);
+export default runOCR;

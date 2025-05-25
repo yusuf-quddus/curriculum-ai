@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { createRequire } from 'module';
-
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse'); 
+
 const file = process.argv[2];
 
 const parsePDF = async (fileName) => {
@@ -11,9 +11,10 @@ const parsePDF = async (fileName) => {
         const dataBuffer = fs.readFileSync(fileName);
         const data = await pdf(dataBuffer);
         console.log(data.text); 
+        return data.text;
     } catch(err) {
         console.error("Failed to parse PDF file: ", err.message);
     }
 };
 
-parsePDF(file);
+export default parsePDF;
