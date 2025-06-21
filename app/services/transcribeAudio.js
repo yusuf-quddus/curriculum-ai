@@ -13,22 +13,22 @@ dotenv.config({ path: resolve(__dirname, '../../.env') });
 
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
 
-const audioInput = process.argv[2];
+// const audioInput = process.argv[2];
 
-if (!audioInput) {
-  console.error("Usage: node transcribeAudioFile.js path/to/audio.mp3");
-  process.exit(1);
-}
+// if (!audioInput) {
+//   console.error("Usage: node transcribeAudioFile.js path/to/audio.mp3");
+//   process.exit(1);
+// }
 
-const audioPath = path.resolve(audioInput);
+// const audioPath = path.resolve(audioInput);
 
-const transcribeAudio = async (audioFile) => {
-  if (!audioFile) {
+const transcribeAudio = async (audioInput) => {
+  if (!audioInput) {
     console.error("input audio file");
     process.exit(1);
   }
 
-  const audioFile = path.resolve(audioInput);
+  let audioFile = path.resolve(audioInput);
 
   const form = new FormData();
   form.append('file', fs.createReadStream(audioFile));

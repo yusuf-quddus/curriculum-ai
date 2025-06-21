@@ -17,9 +17,9 @@ console.log("Loaded OPENAI_KEY:", process.env.OPENAI_API_KEY);
 
 // get youtube url and strip query params
 
-const transcribeAudio = async (ytUrl) => {
+const transcribeAudioYT = async (url) => {
 
-  const ytUrl = process.argv[2].split('?')[0].replace(/\\/g, '');
+  const ytUrl = url.argv[2].split('?')[0].replace(/\\/g, '');
 
   if (!ytUrl) {
     console.error("No url given");
@@ -63,4 +63,4 @@ const transcribeAudio = async (ytUrl) => {
   }
 };
 
-export default transcribeAudio;
+export default transcribeAudioYT;

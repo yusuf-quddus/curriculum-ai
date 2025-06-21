@@ -10,7 +10,7 @@ const parsePDF = async (fileName) => {
         console.log(`Parsing ${fileName} ...`);
         const dataBuffer = fs.readFileSync(fileName);
         const data = await pdf(dataBuffer);
-        console.log(data.text); 
+        // console.log(data.text); 
         return data.text;
     } catch(err) {
         console.error("Failed to parse PDF file: ", err.message);
